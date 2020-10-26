@@ -112,6 +112,28 @@ function actLS() {
 				tareaAct=tareaAct+tareas[x];
 			}
 		}
+		const li = document.createElement('li');
+				const checkbox = document.createElement('input')
+				const label = document.createElement('label')
+				const a = document.createElement('a');
+		
+				checkbox.type = "checkbox";
+				label.textContent = tareaAct;
+				a.href = "#";
+		
+				li.appendChild(checkbox);
+				li.appendChild(label);
+				li.appendChild(a);
+		
+				const taskElement = li;
+		
+				const todoList = document.querySelector(".todo-list");
+				const taskCheckComplete = taskElement.querySelector("input[type=checkbox]");
+				const removeBtn = taskElement.querySelector("a");
+				bindTaskEvent(taskCheckComplete, "click", completeTask);
+				bindTaskEvent(removeBtn, "click", deleteTask);
+				todoList.prepend(taskElement);
+				tareaAct="";
 	}
 }
 actLS();

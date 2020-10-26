@@ -23,8 +23,6 @@ todoInput.addEventListener("keypress", e => {
 		e.target.value = "";
 		e.target.classList.toggle("hidden")
 		newTaskText.classList.toggle("hidden")
-
-
 	}
 })
 
@@ -42,9 +40,7 @@ const makeTaskElement = function (task) {
 	li.appendChild(label);
 	li.appendChild(a);
 
-	tareas[tareas.length]=task;
-
-	localStorage.setItem("Tarea", tareas);
+	gLS(task);
 
 	return li
 }
@@ -75,14 +71,18 @@ const countTaskCompletes = function () {
 	return totalTaskCompletes.length;
 }
 
+function gLS(task){
+	tareas[tareas.length]=task;
+	localStorage.setItem("Tarea", tareas);
+}
+
 function actLS() {
 	if(localStorage.getItem("Tarea"))
 	{
-		tareas = localStorage.getItem("Tarea")
-		
+		let tareaAct = "";
+		tareas = localStorage.getItem("Tarea");
 		for (x in tareas) {
-
-			if(tareas[x]!=",")
+			if(tareas[x]==",")
 			{
 				const li = document.createElement('li');
 				const checkbox = document.createElement('input')
@@ -90,7 +90,7 @@ function actLS() {
 				const a = document.createElement('a');
 		
 				checkbox.type = "checkbox";
-				label.textContent = tareas[x];
+				label.textContent = tareaAct;
 				a.href = "#";
 		
 				li.appendChild(checkbox);
@@ -102,9 +102,14 @@ function actLS() {
 				const todoList = document.querySelector(".todo-list");
 				const taskCheckComplete = taskElement.querySelector("input[type=checkbox]");
 				const removeBtn = taskElement.querySelector("a");
-				bindTaskEvent(taskCheckComplete, "click", completeTask)
-				bindTaskEvent(removeBtn, "click", deleteTask)
-				todoList.prepend(taskElement)
+				bindTaskEvent(taskCheckComplete, "click", completeTask);
+				bindTaskEvent(removeBtn, "click", deleteTask);
+				todoList.prepend(taskElement);
+				tareaAct="";
+			}
+			else
+			{
+				tareaAct=tareaAct+tareas[x];
 			}
 		}
 	}
